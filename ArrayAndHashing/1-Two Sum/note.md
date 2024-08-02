@@ -21,7 +21,7 @@
 - O(n2) 雙迴圈找出符合的配對
 
 2. hashmap
-- 使用 hashmap 找出相應合為 target 的數字的 index
+- 使用 hashmap `{ num: index }` 找出相應合為 target 的數字的 index
 
 ### Plan
 > - Sketch visualizations and write pseudocode

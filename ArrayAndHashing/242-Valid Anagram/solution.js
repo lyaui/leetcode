@@ -1,4 +1,4 @@
-// [sore] 初始想到的
+// [sort] 初始想到的
 // time O(n log n), space O(n)
 var isAnagram1 = function (s, t) {
   if (s.length !== t.length) return false;
