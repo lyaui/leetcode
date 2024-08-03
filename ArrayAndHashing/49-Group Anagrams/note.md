@@ -23,7 +23,7 @@
 
 2. HashMap
    - 儲存組別資訊
-   - `{ "sorted string": result group index }`
+   - `{ "sorted string": [str1, str2,...] }`
 
 ### Plan
 > - Sketch visualizations and write pseudocode
@@ -31,18 +31,35 @@
 
 - `O(n*mlogm)`：
 1. 建立用來儲存的 hashmap 與 result 空陣列
-2. iterate strs array，將每個元素 sorted 後建立 sortedStr 變數作為 group 的 key
+2. iterate strs array，將每個元素 sorted 後建立 sortedStr 變數作為 group key
 3. 確認 hashmap 是否存在 key
-- 如果無： set `("sorted str", result group index)`，並 result 建立該 group
-- 如果有： 利用 map 取出 result group index，並在 result 的 group 中加入 str
-4. 回傳 result
+- 如果無： set `("sorted str", [])`，並 result 建立該 group
+- 如果有： 利用 map 取出 group，並在 result 的 group 中加入 str
+4. 將 hashmap 的 values 結果轉換為 array 回傳
 
 - 改良 `O(m*n)`：
-...
+1. 和一般版的差異在於 group key 的產生方式，使用 sortedStr 的話 sort() 為 O(mlogm)
+2. 改用 `getSignature(str)` 取得的 group key 為 O(n*m)
+3. 剩餘步驟同原版
+
+```javascript
+var getSignature = function(s) {
+    // 紀錄每個字母使用次數的 counter array，index 為字母位置
+    // e.g: 'aabccc' 為 [2, 1, 3, 0, 0..]
+    const count = Array(26).fill(0);
+    
+    // 利用 charCodeAt 換算位置
+    for (const c of s) {
+        count[c.charCodeAt(0) - 'a'.charCodeAt(0)]++;
+    }
+
+    // "2#1#3#0#0#0#0....."
+    return counter.join('#')
+};
+```
 
 ### Implement
 > - Implement the solution (make sure to know what level of detail the interviewer wants)
-
 ...
 
 ### Review
@@ -51,16 +68,16 @@
 
 - 直接使用 sorted string 作為 key，不要使用 `JSON.stringify(counter)` 的方式來當作 hashmap 的 key，因為會有 `"{a:1, b:1}"` 跟 `"{b:1, a:1}"`。
 - 善用 hashmap 儲存資訊，例如 result 的 index。
+- 可以利用 `map.get(...).push(...)` 來直接改變 map 內部的值，不一定要透過 set
 
 ### Evaluate
 > - Finish by giving space and run-time complexity
 > - Discuss any pros and cons of the solution
 
-Assume `N` is the length of strs and `K` is the maximum length of a string in strs.
-
 1. 一般版
-- Time Complexity: O(n*mlogm)
+- Time Complexity: O(n*mlogm)，n 是 array 長度，m 是最長的 string 長度
 - Space Complexity: O(m*n)
 
 2. 進階改良版
-...
+- Time Complexity: O(m*n)，n 是 array 長度，m 是最長的 string 長度
+- Space Complexity: O(m*n)
